@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:note_app/view/screens/add_note_screen.dart';
+import 'package:note_app/view/screens/add_note.dart';
 import '../../controller/provider/list_notes_provider.dart';
 
 class NoteWidget extends ConsumerWidget {
@@ -52,8 +52,6 @@ class NoteWidget extends ConsumerWidget {
                 child: Text(
                   '${notes[index].body}',
                   style: Theme.of(context).textTheme.bodySmall,
-                  maxLines: 6,
-                  overflow: TextOverflow.ellipsis,
                   softWrap: true,
                 ),
               ),

@@ -21,9 +21,13 @@ class InputTextFormField extends StatelessWidget {
   final bool? readOnly;
   final Widget? label;
   final FloatingLabelBehavior? floatingLabelBehavior;
+  final Color? fillColor;
+  final bool? filled;
 
   const InputTextFormField(
       {super.key,
+      this.filled,
+      this.fillColor,
       this.floatingLabelBehavior,
       this.label,
       this.readOnly,
@@ -61,8 +65,11 @@ class InputTextFormField extends StatelessWidget {
       keyboardType: keyboardType,
       obscureText: obscureText ?? false,
       decoration: InputDecoration(
+        filled: filled ?? true,
+        fillColor: fillColor,
         contentPadding: const EdgeInsets.all(20),
         labelText: labelText,
+        labelStyle: const TextStyle(fontWeight: FontWeight.bold),
         floatingLabelBehavior: floatingLabelBehavior,
         label: label,
         helperText: helperText,

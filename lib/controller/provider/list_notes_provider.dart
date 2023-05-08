@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:note_app/controller/helper/shared_perferences_helper.dart';
@@ -37,6 +39,13 @@ class _NoteStateNotifier extends StateNotifier<List<NoteModel>> {
   void addNote({required NoteModel note}) {
     state.add(note);
     debugPrint('add- $state');
+  }
+
+  void editNote(
+      {required int index, required String title, required String body}) {
+    state[index].title = title;
+    state[index].body = body;
+    log('${state.toList()}');
   }
 
   bool removeNote({required int index}) {

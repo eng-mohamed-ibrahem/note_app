@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class NoteModel {
@@ -34,4 +35,9 @@ class NoteModel {
 
   factory NoteModel.fromJson(String source) =>
       NoteModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() {
+    return 'NoteModel(id: $id, title: $title, body: $body, colorCode: $colorCode)';
+  }
 }

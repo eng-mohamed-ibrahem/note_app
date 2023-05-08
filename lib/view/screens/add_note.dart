@@ -16,11 +16,12 @@ class AddNoteScreen extends HookConsumerWidget {
     final TextEditingController bodyController = useTextEditingController();
     final GlobalKey<FormState> globalKey =
         useMemoized(() => GlobalKey<FormState>());
-
+    Color? fillColor;
     final notes = ref.read(notesProvider);
     if (index != null) {
       titleController.text = notes[index!].title!;
       bodyController.text = notes[index!].body!;
+      fillColor = Color(notes[index!].colorCode!);
     }
     return Scaffold(
       appBar: AppBar(
@@ -38,6 +39,7 @@ class AddNoteScreen extends HookConsumerWidget {
                   height: 10,
                 ),
                 InputTextFormField(
+                  fillColor: index != null ? fillColor : null,
                   controller: titleController,
                   labelText: 'title',
                   maxLines: 2,
@@ -50,6 +52,7 @@ class AddNoteScreen extends HookConsumerWidget {
                   height: 20,
                 ),
                 InputTextFormField(
+                  fillColor: index != null ? fillColor : null,
                   controller: bodyController,
                   labelText: 'body',
                   maxLines: 30,
@@ -64,11 +67,17 @@ class AddNoteScreen extends HookConsumerWidget {
           onPressed: () {
             if (titleController.text.isNotEmpty &&
                 bodyController.text.isNotEmpty) {
+              /// No_1 at runtime
+              /// if edit or add
               if (index != null) {
-                notes[index!].title = titleController.text.trim();
-                notes[index!].body = bodyController.text.trim();
+                /// edit at runtime state
+                ref.watch(notesProvider.notifier).editNote(
+                      index: index!,
+                      title: titleController.text.trim(),
+                      body: bodyController.text.trim(),
+                    );
               } else {
-//  add note at runtime state
+                /// save note at runtime state
                 ref.watch(notesProvider.notifier).addNote(
                       note: NoteModel(
                           id: notes.length - 1,
@@ -76,21 +85,31 @@ class AddNoteScreen extends HookConsumerWidget {
                           body: bodyController.text.trim(),
                           colorCode: ColorController.generateColor().value),
                     );
-                // save to sharedPref
-                ref
-                    .watch(notesProvider.notifier)
-                    .saveToShared()
-                    .whenComplete(() {
-                  // display snackbar saved
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('note added.'),
-                    ),
-                  );
-                  var getNotes = ref.read(notesProvider);
-                  ref.refresh(notesProvider).addAll(getNotes);
-                });
               }
+
+              /// No_2 at sharedpreferences
+              /// save to sharedPref
+              ref.watch(notesProvider.notifier).saveToShared().whenComplete(() {
+                /// display snackbar saved
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: index != null
+                        ? const Text('note edited.')
+                        : const Text('note added.'),
+                    behavior: SnackBarBehavior.floating,
+                    duration: const Duration(seconds: 1),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    width: 120,
+                  ),
+                );
+              });
+
+              /// No_3 displayed changes to home screen
+              /// force rebuild
+              var getNotes = ref.read(notesProvider);
+              ref.refresh(notesProvider).addAll(getNotes);
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
@@ -98,7 +117,8 @@ class AddNoteScreen extends HookConsumerWidget {
                 ),
               );
             }
-            // navigate to mainScreen
+
+            /// navigate to mainScreen
             Navigator.pop(context);
           },
           child: const Text('save')),
