@@ -31,19 +31,12 @@ class NoteWidget extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    '${notes[index].title}',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const Expanded(
-                    flex: 1,
-                    child: Divider(thickness: 1, indent: 5, endIndent: 0),
-                  ),
-                ],
+              Text(
+                '${notes[index].title}',
+                style: Theme.of(context).textTheme.titleMedium,
+                softWrap: true,
               ),
+              const Divider(thickness: 1, indent: 5, endIndent: 0),
               const SizedBox(
                 height: 5,
               ),

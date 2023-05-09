@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:note_app/view/screens/home.dart';
-import '../controller/provider/list_notes_provider.dart';
+import '../../controller/provider/list_notes_provider.dart';
+import '../../controller/util/assets_images.dart';
 
 class SplashScreen extends ConsumerWidget {
   const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Future(
-      () {
-        return ref.read(notesProvider.notifier).fetchNotesFromShared();
-      },
+    Future.delayed(
+      const Duration(milliseconds: 500),
     ).then((value) {
+      ref.read(notesProvider.notifier).fetchNotesFromShared();
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -21,9 +21,14 @@ class SplashScreen extends ConsumerWidget {
           (route) => false);
     });
 
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('loading...'),
+        child: Image.asset(
+          AssetImages.splashScreen,
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

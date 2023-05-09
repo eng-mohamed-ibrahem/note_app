@@ -48,9 +48,11 @@ class _NoteStateNotifier extends StateNotifier<List<NoteModel>> {
     log('${state.toList()}');
   }
 
-  bool removeNote({required int index}) {
-    state.removeAt(index);
-    debugPrint('remove- $state');
+  Future<bool> removeNote({required int index}) async {
+    await Future(() {
+      state.removeAt(index);
+      debugPrint('remove- $state');
+    });
     return true;
   }
 

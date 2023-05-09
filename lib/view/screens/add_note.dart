@@ -97,7 +97,7 @@ class AddNoteScreen extends HookConsumerWidget {
                         ? const Text('note edited.')
                         : const Text('note added.'),
                     behavior: SnackBarBehavior.floating,
-                    duration: const Duration(seconds: 1),
+                    duration: const Duration(seconds: 2),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
