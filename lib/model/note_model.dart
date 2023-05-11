@@ -25,7 +25,7 @@ class NoteModel {
       title: map['title'] != null ? map['title'] as String : null,
       body: map['body'] != null ? map['body'] as String : null,
       colorCode: map['colorCode'] != null ? map['colorCode'] as int : null,
-      iLikedIt: map['like'] as bool,
+      iLikedIt: map['like'] != null ? map['like'] as bool : false,
     );
   }
 

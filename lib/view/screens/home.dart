@@ -78,7 +78,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 Positioned(
                   bottom: 50,
-                  left: MediaQuery.of(context).size.width / 2.0,
+                  left: MediaQuery.of(context).size.width / 2.0 - 25,
                   child: Draggable<String>(
                     data: AppConst.dragData,
                     feedback: const LoveWidget(),
@@ -104,7 +104,7 @@ class HomeScreen extends ConsumerWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>  AddNoteScreen(),
+                builder: (context) => AddNoteScreen(),
               ));
         },
         icon: const FaIcon(
