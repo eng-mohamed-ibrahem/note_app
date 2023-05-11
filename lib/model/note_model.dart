@@ -1,17 +1,13 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class NoteModel {
   int? id;
   String? title;
   String? body;
-  int? colorCode;
-  NoteModel({
-    this.id,
-    this.title,
-    this.body,
-    this.colorCode,
-  });
+  final int? colorCode;
+  bool iLikedIt;
+  NoteModel(
+      {this.id, this.title, this.body, this.colorCode, this.iLikedIt = false});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -19,6 +15,7 @@ class NoteModel {
       'title': title,
       'body': body,
       'colorCode': colorCode,
+      'like': iLikedIt
     };
   }
 
@@ -28,6 +25,7 @@ class NoteModel {
       title: map['title'] != null ? map['title'] as String : null,
       body: map['body'] != null ? map['body'] as String : null,
       colorCode: map['colorCode'] != null ? map['colorCode'] as int : null,
+      iLikedIt: map['like'] as bool,
     );
   }
 

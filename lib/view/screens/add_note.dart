@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:note_app/model/note_model.dart';
+import 'package:note_app/view/widget/love_widget.dart';
 import '../../controller/color_controller/color_note_controller.dart';
 import '../../controller/provider/list_notes_provider.dart';
+import '../../controller/util/methods/app_methods.dart';
 import '../widget/input_text_field.dart';
 
+
+
 class AddNoteScreen extends HookConsumerWidget {
-  final int? index;
-  const AddNoteScreen({super.key, this.index});
+  late int? index;
+   AddNoteScreen({super.key, this.index});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,7 +21,7 @@ class AddNoteScreen extends HookConsumerWidget {
     final GlobalKey<FormState> globalKey =
         useMemoized(() => GlobalKey<FormState>());
     Color? fillColor;
-    final notes = ref.read(notesProvider);
+    final notes = ref.watch(notesProvider);
     if (index != null) {
       titleController.text = notes[index!].title!;
       bodyController.text = notes[index!].body!;
@@ -29,36 +33,68 @@ class AddNoteScreen extends HookConsumerWidget {
       ),
       body: Form(
         key: globalKey,
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                InputTextFormField(
-                  fillColor: index != null ? fillColor : null,
-                  controller: titleController,
-                  labelText: 'title',
-                  maxLines: 2,
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                ),
-                const Divider(
-                  thickness: 1,
-                  indent: 0,
-                  endIndent: 0,
-                  height: 20,
-                ),
-                InputTextFormField(
-                  fillColor: index != null ? fillColor : null,
-                  controller: bodyController,
-                  labelText: 'body',
-                  maxLines: 30,
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                ),
-              ],
+        child: AnimatedContainer(
+          curve: Curves.bounceOut,
+          duration: const Duration(milliseconds: 300),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  InputTextFormField(
+                    fillColor: index != null ? fillColor : null,
+                    controller: titleController,
+                    labelText: 'title',
+                    maxLines: 2,
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                  ),
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Divider(
+                          thickness: 1,
+                          indent: 0,
+                          endIndent: 5,
+                          height: 20,
+                        ),
+                      ),
+                      index != null && notes[index!].iLikedIt
+                          ? InkWell(
+                              onTap: () {
+                                // remove loved note
+                                removeLovedNote(
+                                    ref: ref,
+                                    unLovedNoteIndex: index!,
+                                    notes: notes);
+                                    index = notes.length-1;
+
+                              },
+                              child: const LoveWidget(),
+                            )
+                          : const SizedBox(),
+                      const Expanded(
+                        child: Divider(
+                          thickness: 1,
+                          indent: 5,
+                          endIndent: 0,
+                          height: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                  InputTextFormField(
+                    fillColor: index != null ? fillColor : null,
+                    controller: bodyController,
+                    labelText: 'body',
+                    maxLines: 30,
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -80,7 +116,9 @@ class AddNoteScreen extends HookConsumerWidget {
                 /// save note at runtime state
                 ref.watch(notesProvider.notifier).addNote(
                       note: NoteModel(
-                          id: notes.length - 1,
+                          id: notes.isNotEmpty
+                              ? notes.length - 1
+                              : notes.length,
                           title: titleController.text.trim(),
                           body: bodyController.text.trim(),
                           colorCode: ColorController.generateColor().value),
