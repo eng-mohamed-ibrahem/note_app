@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:note_app/view/screens/home.dart';
 import '../../controller/provider/list_notes_provider.dart';
-import '../../controller/util/assets_images.dart';
+import '../../controller/util/images_path/assets_images.dart';
 
 class SplashScreen extends ConsumerWidget {
   const SplashScreen({super.key});
