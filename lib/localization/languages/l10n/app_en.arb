@@ -6,9 +6,9 @@
     "saveNoteButtonText": "save",
     "addNoteAppbarTitle": "add note",
     "myNotesAppbarTitle": "my notes",
-    "noteEditeSnackbarMessage":"note edited",
-    "noteAddSnackbarMessage":"note added",
-    "noteNotSavedSnackbarMessage":"not saved",
-    "deleteDismissText":"Delete",
-    "deleteNoteMessage":"note deleted"
+    "noteEditeSnackbarMessage": "note edited",
+    "noteAddSnackbarMessage": "note added",
+    "noteNotSavedSnackbarMessage": "not saved",
+    "deleteDismissText": "Delete",
+    "deleteNoteMessage": "note deleted"
 }
