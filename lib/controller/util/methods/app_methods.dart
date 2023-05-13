@@ -1,10 +1,11 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../../localization/localization_output/app_localizations.dart';
 import '../../../model/note_model.dart';
 import '../../provider/list_notes_provider.dart';
 
-SnackBar notifiySnackBar({required Widget content}) {
+SnackBar notifiySnackBar({required Widget content, double width = 150}) {
   return SnackBar(
     content: content,
     behavior: SnackBarBehavior.floating,
@@ -12,7 +13,8 @@ SnackBar notifiySnackBar({required Widget content}) {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(15),
     ),
-    width: 150,
+    // width: width,
+    
   );
 }
 
@@ -78,11 +80,26 @@ void dismissNoteWidget(
       forceRebuild(ref: ref);
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('note deleted'),
+      notifiySnackBar(
+        content: Text(AppLocalizations.of(context)!.deleteNoteMessage),
       ),
     );
 
     log('removed- $index');
   });
+}
+
+Locale? localeResolutionCallback(
+    Locale? locale, Iterable<Locale> supportedLocales) {
+  if (locale == null) {
+    return supportedLocales.last;
+  }
+
+  for (var supportedLocale in supportedLocales) {
+    if (locale.languageCode == supportedLocale.languageCode) {
+      return supportedLocale;
+    }
+  }
+
+  return supportedLocales.last;
 }

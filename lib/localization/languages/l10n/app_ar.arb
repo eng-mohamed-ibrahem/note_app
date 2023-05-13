@@ -1,0 +1,15 @@
+{
+    "appTitle": "مذكرات ملونة",
+    "emptyListMessage": "أضف مذكرة بالضغط على  ",
+    "noteTitle": "الموضوع",
+    "noteBody": "المحتوى",
+    "saveNoteButtonText": "حفظ",
+    "addNoteAppbarTitle": "أضف مذكرة",
+    "myNotesAppbarTitle": "مذكراتى",
+    "noteEditeSnackbarMessage":"تم تعديل مذكرة",
+    "noteAddSnackbarMessage":"تم إضافة مذكرة",
+    "noteNotSavedSnackbarMessage":"لم يتم الحفظ",
+    "deleteDismissText":"حذف",
+    "deleteNoteMessage":"تم حذف المذكرة"
+    
+}

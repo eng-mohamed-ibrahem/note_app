@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../localization/localization_output/app_localizations.dart';
 
 class DismissbleWidget extends StatelessWidget {
   final void Function(DismissDirection)? onDismissed;
@@ -27,10 +28,10 @@ class DismissbleWidget extends StatelessWidget {
             Container(
               decoration: const BoxDecoration(color: Colors.red),
               width: MediaQuery.of(context).size.width * 0.25,
-              child: const Center(
+              child: Center(
                   child: Text(
-                'Delete',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                AppLocalizations.of(context)!.deleteDismissText,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               )),
             ),
             Expanded(

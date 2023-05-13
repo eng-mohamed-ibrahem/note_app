@@ -1,0 +1,14 @@
+{
+    "appTitle": "Color Notes",
+    "emptyListMessage": "add note by tapping  ",
+    "noteTitle": "title",
+    "noteBody": "body",
+    "saveNoteButtonText": "save",
+    "addNoteAppbarTitle": "add note",
+    "myNotesAppbarTitle": "my notes",
+    "noteEditeSnackbarMessage":"note edited",
+    "noteAddSnackbarMessage":"note added",
+    "noteNotSavedSnackbarMessage":"not saved",
+    "deleteDismissText":"Delete",
+    "deleteNoteMessage":"note deleted"
+}

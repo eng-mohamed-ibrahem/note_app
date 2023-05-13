@@ -9,6 +9,7 @@ import '../../controller/provider/theme_mode_provider.dart';
 import '../../controller/util/constants/app_constants.dart';
 import '../../controller/util/constants/key_constants.dart';
 import '../../controller/util/methods/app_methods.dart';
+import '../../localization/localization_output/app_localizations.dart';
 import '../widget/dismissible_widget.dart';
 import '../widget/love_widget.dart';
 import 'add_note.dart';
@@ -22,7 +23,7 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('my notes'),
+        title: Text(AppLocalizations.of(context)!.myNotesAppbarTitle),
         actions: [
           const Icon(Icons.dark_mode_outlined),
           Switch(
@@ -50,10 +51,9 @@ class HomeScreen extends ConsumerWidget {
           ? Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text('add note by tapping  '),
-                  FaIcon(FontAwesomeIcons.penToSquare),
-                  Text('  icon bellow.'),
+                children: [
+                  Text(AppLocalizations.of(context)!.emptyListMessage),
+                  const FaIcon(FontAwesomeIcons.penToSquare),
                 ],
               ),
             )
@@ -93,7 +93,7 @@ class HomeScreen extends ConsumerWidget {
                           .watch(drawBoxOnWidgetProvider.notifier)
                           .update((state) => false);
                     },
-                    childWhenDragging: const SizedBox(), // empty
+                    childWhenDragging: const LoveWidget(), // empty
                     child: const LoveWidget(),
                   ),
                 )

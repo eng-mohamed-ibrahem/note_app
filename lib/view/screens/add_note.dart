@@ -6,13 +6,12 @@ import 'package:note_app/view/widget/love_widget.dart';
 import '../../controller/color_controller/color_note_controller.dart';
 import '../../controller/provider/list_notes_provider.dart';
 import '../../controller/util/methods/app_methods.dart';
+import '../../localization/localization_output/app_localizations.dart';
 import '../widget/input_text_field.dart';
-
-
 
 class AddNoteScreen extends HookConsumerWidget {
   late int? index;
-   AddNoteScreen({super.key, this.index});
+  AddNoteScreen({super.key, this.index});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,7 +28,7 @@ class AddNoteScreen extends HookConsumerWidget {
     }
     return Scaffold(
       appBar: AppBar(
-        title: const Text('add note'),
+        title: Text(AppLocalizations.of(context)!.addNoteAppbarTitle),
       ),
       body: Form(
         key: globalKey,
@@ -48,7 +47,7 @@ class AddNoteScreen extends HookConsumerWidget {
                   InputTextFormField(
                     fillColor: index != null ? fillColor : null,
                     controller: titleController,
-                    labelText: 'title',
+                    labelText: AppLocalizations.of(context)!.noteTitle,
                     maxLines: 2,
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                   ),
@@ -70,8 +69,7 @@ class AddNoteScreen extends HookConsumerWidget {
                                     ref: ref,
                                     unLovedNoteIndex: index!,
                                     notes: notes);
-                                    index = notes.length-1;
-
+                                index = notes.length - 1;
                               },
                               child: const LoveWidget(),
                             )
@@ -89,7 +87,7 @@ class AddNoteScreen extends HookConsumerWidget {
                   InputTextFormField(
                     fillColor: index != null ? fillColor : null,
                     controller: bodyController,
-                    labelText: 'body',
+                    labelText: AppLocalizations.of(context)!.noteBody,
                     maxLines: 30,
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                   ),
@@ -100,66 +98,64 @@ class AddNoteScreen extends HookConsumerWidget {
         ),
       ),
       floatingActionButton: ElevatedButton(
-          onPressed: () {
-            if (titleController.text.isNotEmpty &&
-                bodyController.text.isNotEmpty) {
-              /// No_1 at runtime
-              /// if edit or add
-              if (index != null) {
-                /// edit at runtime state
-                ref.watch(notesProvider.notifier).editNote(
-                      index: index!,
-                      title: titleController.text.trim(),
-                      body: bodyController.text.trim(),
-                    );
-              } else {
-                /// save note at runtime state
-                ref.watch(notesProvider.notifier).addNote(
-                      note: NoteModel(
-                          id: notes.isNotEmpty
-                              ? notes.length - 1
-                              : notes.length,
-                          title: titleController.text.trim(),
-                          body: bodyController.text.trim(),
-                          colorCode: ColorController.generateColor().value),
-                    );
-              }
-
-              /// No_2 at sharedpreferences
-              /// save to sharedPref
-              ref.watch(notesProvider.notifier).saveToShared().whenComplete(() {
-                /// display snackbar saved
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: index != null
-                        ? const Text('note edited.')
-                        : const Text('note added.'),
-                    behavior: SnackBarBehavior.floating,
-                    duration: const Duration(seconds: 2),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    width: 120,
-                  ),
-                );
-              });
-
-              /// No_3 displayed changes to home screen
-              /// force rebuild
-              var getNotes = ref.read(notesProvider);
-              ref.refresh(notesProvider).addAll(getNotes);
+        onPressed: () {
+          if (titleController.text.isNotEmpty &&
+              bodyController.text.isNotEmpty) {
+            /// No_1 at runtime
+            /// if edit or add
+            if (index != null) {
+              /// edit at runtime state
+              ref.watch(notesProvider.notifier).editNote(
+                    index: index!,
+                    title: titleController.text.trim(),
+                    body: bodyController.text.trim(),
+                  );
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('not saved.'),
-                ),
-              );
+              /// save note at runtime state
+              ref.watch(notesProvider.notifier).addNote(
+                    note: NoteModel(
+                        id: notes.isNotEmpty ? notes.length - 1 : notes.length,
+                        title: titleController.text.trim(),
+                        body: bodyController.text.trim(),
+                        colorCode: ColorController.generateColor().value),
+                  );
             }
 
-            /// navigate to mainScreen
-            Navigator.pop(context);
-          },
-          child: const Text('save')),
+            /// No_2 at sharedpreferences
+            /// save to sharedPref
+            ref.watch(notesProvider.notifier).saveToShared().whenComplete(() {
+              /// display snackbar saved
+              ScaffoldMessenger.of(context).showSnackBar(
+                notifiySnackBar(
+                  content: index != null
+                      ? Text(AppLocalizations.of(context)!
+                          .noteEditeSnackbarMessage)
+                      : Text(
+                          AppLocalizations.of(context)!.noteAddSnackbarMessage),
+                      
+                  // width: 120,
+                ),
+              );
+            });
+
+            /// No_3 displayed changes to home screen
+            /// force rebuild
+            var getNotes = ref.read(notesProvider);
+            ref.refresh(notesProvider).addAll(getNotes);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              notifiySnackBar(
+                content: Text(
+                    AppLocalizations.of(context)!.noteNotSavedSnackbarMessage),
+              ),
+            );
+          }
+
+          /// navigate to mainScreen
+          Navigator.pop(context);
+        },
+        child: Text(AppLocalizations.of(context)!.saveNoteButtonText),
+      ),
     );
   }
 }

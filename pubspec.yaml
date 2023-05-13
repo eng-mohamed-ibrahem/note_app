@@ -39,6 +39,10 @@ dependencies:
   hooks_riverpod: ^2.3.6
   flutter_hooks:
   font_awesome_flutter: ^10.4.0
+  # localization
+  flutter_localizations:
+    sdk: flutter
+  intl: any 
   
    
 
@@ -65,6 +69,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
